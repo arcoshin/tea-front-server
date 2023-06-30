@@ -1,0 +1,27 @@
+# ################################################################################################# #
+# 此文件是【測試環境】的配置文件，必須在主配置中通過spring.profiles.active激活此配置，此文件中的各配置才會生效 #
+# ################################################################################################# #
+
+# Spring的配置
+spring:
+  # 數據源的配置
+  datasource:
+    # 連接數據庫的URL
+    url: jdbc:mysql://localhost:3306/tea_store?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    # 數據庫用戶名
+    username: root
+    # 數據庫密碼
+    password: root
+    # Druid連接池的配置
+    druid:
+      # 初始化連接數量
+      initial-size: 5
+      # 最大激活數量
+      max-active: 20
+
+# 日誌配置
+logging:
+  # 顯示級別
+  level:
+    # 某根包（配置將應用於此包及子孫包）的顯示級別
+    cn.tedu.tea: info

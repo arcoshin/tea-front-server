@@ -1,0 +1,38 @@
+# ################################################################################################# #
+# 此文件是【開發環境】的配置文件，必須在主配置中通過spring.profiles.active激活此配置，此文件中的各配置才會生效 #
+# ################################################################################################# #
+
+# 服務器的配置
+server:
+  # 服務佔用的端口
+  port: 9180
+
+# Spring的配置
+spring:
+  # 數據源的配置
+  datasource:
+    # 連接數據庫的URL
+    url: jdbc:mysql://localhost:3306/tea_store?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    # 數據庫用戶名
+    username: root
+    # 數據庫密碼
+    password: root
+    # Druid連接池的配置
+    druid:
+      # 初始化連接數量
+      initial-size: 5
+      # 最大激活數量
+      max-active: 20
+
+# 學茶商城的自定義配置
+tea-store:
+  # 數據訪問的相關配置
+  dao:
+    # 查詢數據時，默認的每頁記錄數，建議值爲10~30之間
+    default-query-page-size: 10
+  # JWT的配置
+  jwt:
+    # JWT的SecurityKey
+    secret-key: Z#kC]@sZ_%?b~>&}m@GR5u7sq&3utZc|>AF`Ynf~y]*Sk}*=qg}xa!Fc;5yH&Rr[
+    # JWT的憑證有效時間(分鐘)
+    duration-in-minute: 86400
