@@ -28,6 +28,11 @@
 
     <!-- 當前項目的依賴項 -->
     <dependencies>
+        <!-- SpringBoot支持Redis編程的依賴項 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <!-- SpringBoot的中SpringMVC的依賴項，用於處理請求、響應結果、統一異常處理 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -23,6 +23,16 @@ spring:
       initial-size: 5
       # 最大激活數量
       max-active: 20
+  #Redis的配置
+  redis:
+    #主機，默認localhost
+    host: localhost
+    #端口，默認6379
+    port: 6379
+    #用戶名稱，如果沒有則使用 ~ 表示 '無'
+    username: ~
+    #用戶密碼，如果沒有則使用 ~ 表示 '無'
+    password: ~
 
 # 學茶商城的自定義配置
 tea-store:

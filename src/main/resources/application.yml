@@ -9,6 +9,7 @@ spring:
     # 激活哪些Profile配置
     active: dev
 
+
 # MyBatis Plus配置
 mybatis-plus:
   # 配置SQL語句的XML文件的位置
