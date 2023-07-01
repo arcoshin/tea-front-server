@@ -26,4 +26,9 @@ public interface ICategoryService {
      * @return 類別數據列表
      */
     List<CategoryListItemVO> list();
+
+    /**
+     * 重建緩存中的類別列表
+     */
+    void rebuildListCathe();
 }

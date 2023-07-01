@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 /**
- * 處理分類數據的儲存庫接口
+ * 處理類別數據的儲存庫接口
  *
  * @author XJX@tedu.cn
  * @version 1.0

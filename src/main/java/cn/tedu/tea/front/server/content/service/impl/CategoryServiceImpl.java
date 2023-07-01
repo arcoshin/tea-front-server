@@ -1,5 +1,6 @@
 package cn.tedu.tea.front.server.content.service.impl;
 
+import cn.tedu.tea.front.server.content.dao.cache.ICategoryCacheRepository;
 import cn.tedu.tea.front.server.content.dao.persist.repository.ICategoryRepository;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import cn.tedu.tea.front.server.content.service.ICategoryService;
@@ -32,6 +33,9 @@ public class CategoryServiceImpl implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
 
+    @Autowired
+    private ICategoryCacheRepository categoryCacheRepository;
+
     public CategoryServiceImpl() {
         log.debug("創建業務類對象：CategoryServiceImpl");
     }
@@ -39,8 +43,18 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public List<CategoryListItemVO> list() {
         log.debug("開始處理【查詢類別數據列表】的業務，參數：無");
-        List<CategoryListItemVO> categoryListItemVOList = categoryRepository.list();
+
+        List<CategoryListItemVO> categoryListItemVOList = categoryCacheRepository.list();
         return categoryListItemVOList;
+    }
+
+    @Override
+    public void rebuildListCathe() {
+        log.debug("開始處理【重建緩存中的類別列表】的業務，參數：無");
+
+        categoryCacheRepository.deleteList();
+        List<CategoryListItemVO> list = categoryRepository.list();
+        categoryCacheRepository.save(list);
     }
 
 
