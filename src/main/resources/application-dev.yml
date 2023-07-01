@@ -46,3 +46,10 @@ tea-store:
     secret-key: Z#kC]@sZ_%?b~>&}m@GR5u7sq&3utZc|>AF`Ynf~y]*Sk}*=qg}xa!Fc;5yH&Rr[
     # JWT的憑證有效時間(分鐘)
     duration-in-minute: 86400
+
+# 日誌配置
+logging:
+  # 顯示級別
+  level:
+    # 某根包（配置將應用於此包及子孫包）的顯示級別
+    cn.tedu.tea: trace

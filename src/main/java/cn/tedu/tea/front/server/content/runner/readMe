@@ -1,0 +1,11 @@
+
+-----關於ApplicationRunner-----
+
+在Spring Boot中，可以自定義組件類，實現ApplicationRunner接口，重寫其中的run()抽象方法。
+後續，當啟動項目後，會在啟動成功後的第一時間自動調用此run()方法！
+利用以上機制，可以實現"緩存預熱"（項目啟動時就將數據加載到緩存中）。
+
+備註，"緩存"在台灣稱為"快取"
+
+-----關於Schedule週期任務配置類-----
+可以參考ScheduleConfiguration
