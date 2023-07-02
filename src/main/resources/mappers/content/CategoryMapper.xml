@@ -16,13 +16,11 @@
         ORDER BY
             sort DESC, id
     </select>
-
     <sql id="ListQueryFields">
         <if test="true">
             id, name
         </if>
     </sql>
-
     <resultMap id="ListResultMap"
                type="cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO">
         <id column="id" property="id"/>

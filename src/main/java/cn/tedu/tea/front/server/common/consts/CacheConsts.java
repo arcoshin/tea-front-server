@@ -9,4 +9,9 @@ public interface CacheConsts {
      * 類別數據列表在緩存中的Key
      */
     String KEY_CATEGORY_LIST = "category:list";
+
+    /**
+     * 文章數據列表在緩存中的Key
+     */
+    String KEY_ARTICLE_LIST = "article:list";
 }

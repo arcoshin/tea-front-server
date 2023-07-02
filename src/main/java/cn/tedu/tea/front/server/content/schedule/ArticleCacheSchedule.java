@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class CategoryCacheSchedule {
+public class ArticleCacheSchedule {
 
-    public CategoryCacheSchedule() {
-        log.debug("創建計畫任務組件對象：CategoryCacheSchedule");
+    public ArticleCacheSchedule() {
+        log.debug("創建計畫任務組件對象：ArticleCacheSchedule");
     }
 
     //fixedRate：執行頻率，單位毫秒，以前次執行的'開始'時間來計算下一次的執行時間(較推薦，但要注意執行過程時間不可過長)
@@ -23,9 +23,9 @@ public class CategoryCacheSchedule {
     //cron：使用cron表達式來配置執行時間
 
     @Scheduled(fixedRate = 2 * 60 * 1000)
-//    @Scheduled(cron = "* */2 * * * *")
+//    @Scheduled(cron = "* * * * * *")
     public void rebuildListCache() {
-        log.debug("開始執行【重建緩存中的類別列表】的計畫任務");
+        log.debug("開始執行【重建緩存中的文章列表】的計畫任務");
     }
 
     /**

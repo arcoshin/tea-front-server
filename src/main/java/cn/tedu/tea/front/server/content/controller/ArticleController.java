@@ -3,6 +3,7 @@ package cn.tedu.tea.front.server.content.controller;
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
 import cn.tedu.tea.front.server.common.web.JsonResult;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import cn.tedu.tea.front.server.content.service.IArticleService;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 處理文章相關請求的控制器類
  *
@@ -25,9 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/content/articles")
 @Validated
-@Api(tags = "2.1. 文章管理模塊")
+@Api(tags = "2.1. 內容管理-文章管理")
 public class ArticleController {
 
     @Autowired
@@ -50,6 +53,15 @@ public class ArticleController {
         Integer pageNum = page == null ? 1 : page;
         PageData<ArticleListItemVO> pageData = articleService.listByCategoryId(categoryId, pageNum);
         return JsonResult.ok(pageData);
+    }
+
+    @GetMapping("")
+    @ApiOperation("查詢文章數據列表")
+    @ApiOperationSupport(order = 422)
+    public JsonResult list() {
+        log.debug("開始處理【查詢文章數據列表】的請求，參數：無");
+        List<ArticleListItemVO> articleListItemVOList = articleService.list();
+        return JsonResult.ok(articleListItemVOList);
     }
 
 }

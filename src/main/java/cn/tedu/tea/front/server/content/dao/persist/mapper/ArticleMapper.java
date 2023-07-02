@@ -1,6 +1,7 @@
 package cn.tedu.tea.front.server.content.dao.persist.mapper;
 
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +23,12 @@ public interface ArticleMapper extends BaseMapper {
      * @return 文章列表
      */
     List<ArticleListItemVO> listByCategoryId(Long categoryId);
+
+    /**
+     * 查詢文章數據列表
+     *
+     * @return 文章數據列表
+     */
+    List<ArticleListItemVO> list();
 
 }

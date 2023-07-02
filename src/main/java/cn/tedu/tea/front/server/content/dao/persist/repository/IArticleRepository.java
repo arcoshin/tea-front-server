@@ -2,6 +2,9 @@ package cn.tedu.tea.front.server.content.dao.persist.repository;
 
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
+
+import java.util.List;
 
 /**
  * 處理文章數據的儲存庫接口
@@ -21,4 +24,12 @@ public interface IArticleRepository {
      */
     PageData<ArticleListItemVO> listByCategoryId(Long categoryId, Integer pageNum, Integer pageSize);
 
+    /**
+     * 查詢文章列表
+     *
+     * @param pageNum    頁碼
+     * @param pageSize   每頁紀錄數
+     * @return 文章列表
+     */
+    PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize);
 }

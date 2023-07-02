@@ -1,13 +1,17 @@
 package cn.tedu.tea.front.server.content.service.impl;
 
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
+import cn.tedu.tea.front.server.content.dao.cache.IArticleCacheRepository;
 import cn.tedu.tea.front.server.content.dao.persist.repository.IArticleRepository;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import cn.tedu.tea.front.server.content.service.IArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 處理文章數據的業務實現類
@@ -25,6 +29,9 @@ public class ArticleServiceImpl implements IArticleService {
     @Autowired
     private IArticleRepository articleRepository;
 
+    @Autowired
+    private IArticleCacheRepository articleCacheRepository;
+
     public ArticleServiceImpl() {
         log.debug("創建業務類對象：ArticleServiceImpl");
     }
@@ -41,5 +48,22 @@ public class ArticleServiceImpl implements IArticleService {
         log.debug("開始處理【根據文章類別查詢文章列表】的業務，文章類別：{}, 頁碼：{}，每頁記錄數：{}", categoryId, pageNum, pageSize);
         PageData<ArticleListItemVO> pageData = articleRepository.listByCategoryId(categoryId, pageNum, pageSize);
         return pageData;
+    }
+
+    @Override
+    public List<ArticleListItemVO> list() {
+        log.debug("開始處理【查詢文章數據列表】的業務，參數：無");
+
+        List<ArticleListItemVO> articleListItemVOList = articleCacheRepository.list();
+        return articleListItemVOList;
+    }
+
+    @Override
+    public void rebuildListCache() {
+        log.debug("開始處理【重建緩存中的文章列表】的業務，參數：無");
+
+        articleCacheRepository.deleteList();
+        List<ArticleListItemVO> list = articleCacheRepository.list();
+        articleCacheRepository.save(list);
     }
 }
