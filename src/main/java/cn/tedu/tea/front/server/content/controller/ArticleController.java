@@ -3,6 +3,7 @@ package cn.tedu.tea.front.server.content.controller;
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
 import cn.tedu.tea.front.server.common.web.JsonResult;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import cn.tedu.tea.front.server.content.service.IArticleService;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -13,8 +14,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/content/articles")
 @Validated
-@Api(tags = "2.1. 內容管理-文章管理")
+@Api(tags = "1.3. 內容管理-文章管理")
 public class ArticleController {
 
     @Autowired
@@ -62,6 +65,20 @@ public class ArticleController {
         log.debug("開始處理【查詢文章數據列表】的請求，參數：無");
         List<ArticleListItemVO> articleListItemVOList = articleService.list();
         return JsonResult.ok(articleListItemVOList);
+    }
+
+    @GetMapping("/{id:[0-9]+}")
+    @PreAuthorize("hasAuthority('/content/category/read')")
+    @ApiOperation("根據ID查詢文章詳情")
+    @ApiOperationSupport(order = 410)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long")
+    })
+    public JsonResult getStandardById(
+            @PathVariable @Range(min = 1, message = "請提交有效的文章ID值！") Long id) {
+        log.debug("開始處理【根據ID查詢文章詳情】的請求，參數：{}", id);
+        ArticleStandardVO queryResult = articleService.getStandardById(id);
+        return JsonResult.ok(queryResult);
     }
 
 }

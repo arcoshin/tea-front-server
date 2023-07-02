@@ -1,5 +1,6 @@
 package cn.tedu.tea.front.server.content.dao.persist.mapper;
 
+import cn.tedu.tea.front.server.content.pojo.entity.Comment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,26 +12,33 @@ import java.util.List;
 @Sql(scripts = {"classpath:/sql/truncate_table.sql", "classpath:/sql/insert_data.sql"})
 @Sql(scripts = {"classpath:/sql/truncate_table.sql", "classpath:/sql/insert_data.sql"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class ArticleMapperTests {
+public class CommentMapperTests {
 
     @Autowired
-    private ArticleMapper mapper;
+    private CommentMapper mapper;
 
     @Test
-    void listByCategoryId() {
-        Long categoryId = 1L;
-        List<?> list = mapper.listByCategoryId(categoryId);
+    void insert() {
+        Comment comment = new Comment();
+        comment.setAuthorId(1L);
+        comment.setArticleId(1L);
+        comment.setContent("新增一條評論測試！");
+
+        System.out.println("插入數據之前，參數：" + comment);
+        int rows = mapper.insert(comment);
+        System.out.println("插入數據完成，受影響的行數：" + rows);
+        System.out.println("插入數據之後，參數：" + comment);
+    }
+
+    @Test
+    void listByArticleId() {
+        Long articleId = 1L;
+        List<?> list = mapper.listByArticleId(articleId);
         System.out.println("查詢列表數據完成，列表長度：" + list.size());
         for (Object item : list) {
             System.out.println("列表項：" + item);
         }
     }
 
-    @Test
-    void getStandardById() {
-        Long id = 1L;
-        Object queryResult = mapper.getStandardById(id);
-        System.out.println("根據ID查詢數據完成，查詢結果：" + queryResult);
-    }
 
 }

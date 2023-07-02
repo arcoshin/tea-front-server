@@ -2,6 +2,7 @@ package cn.tedu.tea.front.server.content.dao.persist.repository;
 
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 
 import java.util.List;
@@ -32,4 +33,12 @@ public interface IArticleRepository {
      * @return 文章列表
      */
     PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize);
+
+    /**
+     * 根據id查詢文章數據詳情
+     *
+     * @param id 文章ID
+     * @return 匹配的文章數據詳情，如果沒有匹配的數據，則返回null
+     */
+    ArticleStandardVO getStandardById(Long id);
 }

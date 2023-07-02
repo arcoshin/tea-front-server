@@ -63,6 +63,53 @@
         content_article.id DESC
     </select>
 
-
+    <!-- ArticleStandardVO getStandardById(Long id); -->
+    <select id="getStandardById" resultMap="StandardResultMap">
+        SELECT
+        <include refid="StandardQueryFields"></include>
+        FROM
+        content_article
+        LEFT JOIN content_category ON content_article.category_id=content_category.id
+        LEFT JOIN content_article_detail ON content_article.id=content_article_detail.article_id
+        WHERE
+        content_article.id=#{id}
+    </select>
+    <sql id="StandardQueryFields">
+        <if test="true">
+            content_article.id,
+            content_article.author_id,
+            content_article.author_name,
+            content_article.category_id,
+            content_article.title,
+            content_article.brief,
+            content_article.tags,
+            content_article.sort,
+            content_article.cover_url,
+            content_article.up_count,
+            content_article.down_count,
+            content_article.click_count,
+            content_article.comment_count,
+            content_article.gmt_create,
+            content_article.gmt_modified
+        </if>
+    </sql>
+    <resultMap id="StandardResultMap"
+               type="cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO">
+        <id column="id" property="id"/>
+        <result column="author_id" property="authorId"/>
+        <result column="author_name" property="authorName"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="title" property="title"/>
+        <result column="brief" property="brief"/>
+        <result column="tags" property="tags"/>
+        <result column="sort" property="sort"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="up_count" property="upCount"/>
+        <result column="down_count" property="downCount"/>
+        <result column="click_count" property="clickCount"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+    </resultMap>
 
 </mapper>

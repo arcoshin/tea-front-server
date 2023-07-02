@@ -2,6 +2,7 @@ package cn.tedu.tea.front.server.content.service;
 
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,4 +47,12 @@ public interface IArticleService {
      * 重建緩存中的文章列表
      */
     void rebuildListCache();
+
+    /**
+     * 根據ID查詢文章詳情
+     *
+     * @param id 文章ID
+     * @return 匹配的文章數據詳情，如果沒有匹配的數據，則返回null
+     */
+    ArticleStandardVO getStandardById(Long id);
 }

@@ -1,9 +1,12 @@
 package cn.tedu.tea.front.server.content.service.impl;
 
+import cn.tedu.tea.front.server.common.ex.ServiceException;
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
+import cn.tedu.tea.front.server.common.web.ServiceCode;
 import cn.tedu.tea.front.server.content.dao.cache.IArticleCacheRepository;
 import cn.tedu.tea.front.server.content.dao.persist.repository.IArticleRepository;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import cn.tedu.tea.front.server.content.service.IArticleService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,5 +68,17 @@ public class ArticleServiceImpl implements IArticleService {
         articleCacheRepository.deleteList();
         List<ArticleListItemVO> list = articleCacheRepository.list();
         articleCacheRepository.save(list);
+    }
+
+    @Override
+    public ArticleStandardVO getStandardById(Long id) {
+        log.debug("開始處理【根據ID查詢文章詳情】的業務，參數：{}", id);
+        ArticleStandardVO queryResult = articleRepository.getStandardById(id);
+        if (queryResult == null) {
+            String message = "查詢文章詳情失敗，文章數據不存在！";
+            log.warn(message);
+            throw new ServiceException(ServiceCode.ERROR_NOT_FOUND, message);
+        }
+        return queryResult;
     }
 }

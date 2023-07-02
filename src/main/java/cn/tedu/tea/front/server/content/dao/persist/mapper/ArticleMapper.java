@@ -1,6 +1,7 @@
 package cn.tedu.tea.front.server.content.dao.persist.mapper;
 
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
@@ -31,4 +32,11 @@ public interface ArticleMapper extends BaseMapper {
      */
     List<ArticleListItemVO> list();
 
+    /**
+     * 根據ID查詢文章
+     *
+     * @param id 文章ID
+     * @return 匹配的文章，如果沒有匹配的數據，則返回null
+     */
+    ArticleStandardVO getStandardById(Long id);
 }

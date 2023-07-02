@@ -5,6 +5,7 @@ import cn.tedu.tea.front.server.common.util.PageInfoToPageDataConverter;
 import cn.tedu.tea.front.server.content.dao.persist.mapper.ArticleMapper;
 import cn.tedu.tea.front.server.content.dao.persist.repository.IArticleRepository;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;
+import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -49,6 +50,12 @@ public class ArticleRepositoryImpl implements IArticleRepository {
         PageInfo<ArticleListItemVO> pageInfo = new PageInfo<>(list);
         PageData<ArticleListItemVO> pageData = PageInfoToPageDataConverter.convert(pageInfo);
         return pageData;
+    }
+
+    @Override
+    public ArticleStandardVO getStandardById(Long id) {
+        log.debug("開始執行【根據ID查詢文章信息】的數據訪問，參數：{}", id);
+        return articleMapper.getStandardById(id);
     }
 
 }

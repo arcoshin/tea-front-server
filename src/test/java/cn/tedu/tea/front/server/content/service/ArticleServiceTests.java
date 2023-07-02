@@ -42,4 +42,13 @@ public class ArticleServiceTests {
         }
     }
 
+
+
+    @Test
+    void getStandardById() {
+        Long id = 1L;
+        Object queryResult = service.getStandardById(id);
+        System.out.println("根據ID查詢數據完成，查詢結果：" + queryResult);
+    }
+
 }
