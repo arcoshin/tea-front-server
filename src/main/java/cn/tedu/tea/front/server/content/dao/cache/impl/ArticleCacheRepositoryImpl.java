@@ -1,6 +1,7 @@
 package cn.tedu.tea.front.server.content.dao.cache.impl;
 
 import cn.tedu.tea.front.server.common.consts.CacheConsts;
+import cn.tedu.tea.front.server.common.consts.UserCacheConsts;
 import cn.tedu.tea.front.server.common.pojo.vo.PageData;
 import cn.tedu.tea.front.server.content.dao.cache.IArticleCacheRepository;
 import cn.tedu.tea.front.server.content.pojo.vo.ArticleListItemVO;

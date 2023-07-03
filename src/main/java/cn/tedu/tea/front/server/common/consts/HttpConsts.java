@@ -9,7 +9,7 @@ package cn.tedu.tea.front.server.common.consts;
 public interface HttpConsts {
 
     /**
-     * 請求頭：授權訊息
+     * 請求頭：授權信息
      */
     String HEADER_AUTHORIZATION = "Authorization";
 

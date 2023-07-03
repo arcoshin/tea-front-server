@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Redis基點類型：string、Hash、list、set、z-set
@@ -32,7 +33,7 @@ public class RedisTests {
     @Test
     void setValue() {//ops:操作
         ValueOperations<String, Serializable> opsForValue = redisTemplate.opsForValue();
-        opsForValue.set("username123", "Tom");
+        opsForValue.set("username123", "Tom", 20, TimeUnit.SECONDS);
     }
 
     @Test

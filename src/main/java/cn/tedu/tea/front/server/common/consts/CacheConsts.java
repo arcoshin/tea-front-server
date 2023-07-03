@@ -5,13 +5,13 @@ package cn.tedu.tea.front.server.common.consts;
  * @version 1.0
  */
 public interface CacheConsts {
+
     /**
      * 類別數據列表在緩存中的Key
      */
     String KEY_CATEGORY_LIST = "category:list";
-
     /**
-     * 文章數據列表在緩存中的Key
+     * 類別數據列表在緩存中的Key
      */
     String KEY_ARTICLE_LIST = "article:list";
 }

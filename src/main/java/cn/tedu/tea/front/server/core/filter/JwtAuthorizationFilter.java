@@ -1,11 +1,15 @@
 package cn.tedu.tea.front.server.core.filter;
 
+import cn.tedu.tea.front.server.account.dao.cache.IUserCacheRepository;
+import cn.tedu.tea.front.server.common.consts.HttpConsts;
+import cn.tedu.tea.front.server.common.pojo.po.UserLoginInfoPO;
 import cn.tedu.tea.front.server.common.security.CurrentPrincipal;
 import cn.tedu.tea.front.server.common.web.JsonResult;
 import cn.tedu.tea.front.server.common.web.ServiceCode;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.util.List;
 
 @Slf4j
@@ -37,16 +40,19 @@ import java.util.List;
  *     <li>將解析得到的用戶數據創建為Authentication對象，並存入到SecurityContext中</li>
  * </ul>
  *
- * @author java@tedu.cn
+ * @author XJX@tedu.cn
  * @version 1.0
  */
-public class JwtAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter implements HttpConsts {
 
     /**
      * 從配置文件獲取secretKey值
      */
     @Value("${tea-store.jwt.secret-key}")
     private String secretKey;
+
+    @Autowired
+    private IUserCacheRepository userCacheRepository;
 
     /**
      * JWT最小長度值
@@ -69,7 +75,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
          ====================================*/
 
         // 業內慣用的做法是：客戶端會將JWT放在請求頭中名為Authorization的屬性中
-        String jwt = request.getHeader("Authorization");
+        String jwt = request.getHeader(HEADER_AUTHORIZATION);
         log.debug("客戶端攜帶的JWT：{}", jwt);
 
         /**==================
@@ -80,6 +86,28 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         if (!StringUtils.hasText(jwt) || jwt.length() < JWT_MIN_LENGTH) {
             // 對於無效的JWT，應該直接放行
             log.warn("當前請求中，客戶端沒有攜帶有效的JWT，將放行");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 從Redis中讀取此JWT對應的數據
+        UserLoginInfoPO loginInfo = userCacheRepository.getLoginInfo(jwt);
+
+        // 判斷Redis中是否存在此JWT相關數據
+        if (loginInfo == null) {
+            // 放行，不會向SecurityContext中存入認證信息，則相當於沒有攜帶JWT
+            log.warn("在Redis中無此JWT對應的信息，將直接放行，交由後續的組件進行處理");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 判斷此次請求，與當初登錄成功時的相關信息是否相同
+        String userAgent = loginInfo.getUserAgent();
+        String ip = loginInfo.getIp();
+        if (!userAgent.equals(request.getHeader(HEADER_USER_AGENT))
+                && !ip.equals(request.getRemoteAddr())) {
+            // 本次請求的信息與當初登錄時完全不同，則視為無效的JWT
+            log.warn("本次請求的信息與當初登錄時完全不同，將直接放行，交由後續的組件進行處理");
             filterChain.doFilter(request, response);
             return;
         }
@@ -127,7 +155,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             writer.println(JSON.toJSONString(jsonResult));
             writer.close();
             return;
-        } catch (Throwable e) {log.warn("解析JWT時出現異常：{}", e);
+        } catch (Throwable e) {
+            log.warn("解析JWT時出現異常：{}", e);
             String message = "服務器同時訪問人數較多，請稍候再光臨或聯絡技術人員";
             JsonResult jsonResult = JsonResult.fail(ServiceCode.ERROR_UNKNOWN, message);
             PrintWriter writer = response.getWriter();
@@ -137,11 +166,31 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
         Long id = claims.get("id", Long.class);
         String username = claims.get("username", String.class);
-        String authoritiesJsonString = claims.get("authoritiesJsonString", String.class);
+        //改由從Redis中讀取當前用戶的權限列表
+        //String authoritiesJsonString = claims.get("authoritiesJsonString", String.class);
+
+        // 檢查用戶的啟用狀態
+        Integer userEnable = userCacheRepository.getEnableByUserId(id);
+        if (userEnable != 1) {
+            log.warn("用戶已被禁用");
+            String message = "用戶已被禁用";
+            JsonResult jsonResult = JsonResult.fail(ServiceCode.ERROR_UNAUTHORIZED_DISABLED, message);
+            PrintWriter writer = response.getWriter();
+            writer.println(JSON.toJSONString(jsonResult));
+            writer.close();
+
+            //TODO
+            //再寫兩個方法刪除狀態、刪除JWT
+            //於此處一併執行，徹底停用帳號
+
+            return;
+        }
+
+        String authoritiesJsonString = loginInfo.getAuthoritiesJsonString();
 
         log.debug("JWT中的用戶id = {}", id);
         log.debug("JWT中的用戶名 = {}", username);
-        log.debug("JWT中的用戶權限列表 = {}", authoritiesJsonString);
+        log.debug("從Redis中讀取當前用戶的權限列表 = {}", authoritiesJsonString);
 
         /**============================================
          將解析得到的用戶數據創建為Authentication對象

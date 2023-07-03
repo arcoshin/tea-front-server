@@ -1,6 +1,7 @@
 package cn.tedu.tea.front.server.content.dao.cache.impl;
 
 import cn.tedu.tea.front.server.common.consts.CacheConsts;
+import cn.tedu.tea.front.server.common.consts.UserCacheConsts;
 import cn.tedu.tea.front.server.content.dao.cache.ICategoryCacheRepository;
 import cn.tedu.tea.front.server.content.pojo.vo.CategoryListItemVO;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static cn.tedu.tea.front.server.common.consts.CacheConsts.KEY_CATEGORY_LIST;
 
 /**
  * 處理類別數據的緩存的儲存庫實現類
