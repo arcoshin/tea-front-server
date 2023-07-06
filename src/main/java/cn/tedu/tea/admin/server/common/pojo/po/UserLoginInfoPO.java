@@ -1,4 +1,4 @@
-package cn.tedu.tea.front.server.common.pojo.po;
+package cn.tedu.tea.admin.server.common.pojo.po;
 
 import lombok.Data;
 

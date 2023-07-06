@@ -1,12 +1,30 @@
 package cn.tedu.tea.front.server.account.dao.cache;
 
+import cn.tedu.tea.admin.server.common.pojo.po.UserLoginInfoPO;
 import cn.tedu.tea.front.server.common.consts.UserCacheConsts;
-import cn.tedu.tea.front.server.common.pojo.po.UserLoginInfoPO;
+import org.springframework.stereotype.Repository;
 
 /**
+ * 處理用戶緩存數據的存儲庫接口
  *
+ * @author java@tedu.cn
+ * @version 1.0
  */
 public interface IUserCacheRepository extends UserCacheConsts {
+
+    /**
+     * 在Redis中刪除用戶登入訊息
+     *
+     * @param jwt 用戶登入成功後得到的JWT
+     */
+    void deleteLoginInfo(String jwt);
+
+    /**
+     * 在Redis中刪除用戶啟用狀態訊息
+     *
+     * @param userId 用戶id
+     */
+    void deleteEnable(Long userId);
 
     /**
      * 從Redis中讀取用戶登入訊息(根據JWT)

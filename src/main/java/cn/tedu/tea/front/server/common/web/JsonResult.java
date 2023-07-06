@@ -53,4 +53,12 @@ public class JsonResult {
         jsonResult.setMessage(message);
         return jsonResult;
     }
+
+    //出現未知錯誤時
+    public static JsonResult unknownFail() {
+        JsonResult jsonResult = new JsonResult();
+        jsonResult.setStateCode(ServiceCode.ERROR_UNKNOWN.getValue());
+        jsonResult.setMessage("服務器同時訪問人數較多，請稍候再訪問或聯絡技術人員尋求協助");
+        return jsonResult;
+    }
 }

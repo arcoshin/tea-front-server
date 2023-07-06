@@ -33,6 +33,12 @@ spring:
     username: ~
     #用戶密碼，如果沒有則使用 ~ 表示 '無'
     password: ~
+  # WEB配置
+  web:
+    # 靜態資源配置
+    resources:
+      #靜態資源文件夾，如果多個應使用英文逗號隔開，本地路徑必須使用 file: 作為前綴(全覆蓋模式)
+      static-locations: classpath:static, file:${tea-store.upload.root-dir-name}
 
 # 學茶商城的自定義配置
 tea-store:
@@ -46,6 +52,19 @@ tea-store:
     secret-key: Z#kC]@sZ_%?b~>&}m@GR5u7sq&3utZc|>AF`Ynf~y]*Sk}*=qg}xa!Fc;5yH&Rr[
     # JWT的憑證有效時間(分鐘)
     duration-in-minute: 86400
+  upload:
+    # 對外訪問的主機，必須使用"/"作為最後一個字符
+    host: http://localhost:${server.port}/
+    # 上傳的根級文件夾名稱，必須使用"/"作為最後一個字符
+    root-dir-name: C:/Users/User/Pictures/tea-store-file/
+    # 上傳的文件夾名稱，也會作為訪問資源時的URL第一級目錄，必須使用"/"作為最後一個字符
+    base-dir-name: resources/
+    # 文章圖片
+    article-image:
+      # 允許的文件類型(MINE)
+      types: image/jpeg,image/png
+      # 最大尺寸，單位為MB
+      max-size: 5
 
 # 日誌配置
 logging:

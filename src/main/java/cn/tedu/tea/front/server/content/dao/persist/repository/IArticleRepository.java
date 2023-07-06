@@ -8,60 +8,60 @@ import cn.tedu.tea.front.server.content.pojo.vo.ArticleStandardVO;
 import java.util.List;
 
 /**
- * 处理文章数据的存储库接口
+ * 處理文章數據的存儲庫接口
  *
- * @author java@tedu.cn
+ * @author XJX@tedu.cn
  * @version 1.0
  */
 public interface IArticleRepository {
 
     /**
-     * 设置文章的评论数
+     * 設置文章的評論數
      *
      * @param articleId    文章ID
-     * @param commentCount 评论数的新值
-     * @return 受影响的行数
+     * @param commentCount 評論數的新值
+     * @return 受影響的行數
      */
     int setCommentCount(Long articleId, Integer commentCount);
 
     /**
-     * 根据id修改文章数据
+     * 根據id修改文章數據
      *
-     * @param article 封装了文章ID和新数据的对象
-     * @return 受影响的行数
+     * @param article 封裝了文章ID和新數據的對象
+     * @return 受影響的行數
      */
     int update(Article article);
 
     /**
-     * 根据id查询文章数据详情
+     * 根據id查詢文章數據詳情
      *
      * @param id 文章ID
-     * @return 匹配的文章数据详情，如果没有匹配的数据，则返回null
+     * @return 匹配的文章數據詳情，如果沒有匹配的數據，則返回null
      */
     ArticleStandardVO getStandardById(Long id);
 
     /**
-     * 查询文章列表
+     * 查詢文章列表
      *
      * @return 文章列表
      */
     List<ArticleListItemVO> list();
 
     /**
-     * 查询文章列表
+     * 查詢文章列表
      *
-     * @param pageNum  页码
-     * @param pageSize 每页记录数
+     * @param pageNum  頁碼
+     * @param pageSize 每頁記錄數
      * @return 文章列表
      */
     PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize);
 
     /**
-     * 根据文章类别查询其文章列表
+     * 根據文章類別查詢其文章列表
      *
-     * @param categoryId 文章类别的ID
-     * @param pageNum    页码
-     * @param pageSize   每页记录数
+     * @param categoryId 文章類別的ID
+     * @param pageNum    頁碼
+     * @param pageSize   每頁記錄數
      * @return 文章列表
      */
     PageData<ArticleListItemVO> listByCategoryId(Long categoryId, Integer pageNum, Integer pageSize);

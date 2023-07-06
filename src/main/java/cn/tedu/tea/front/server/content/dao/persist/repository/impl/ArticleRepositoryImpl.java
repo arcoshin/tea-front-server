@@ -16,9 +16,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * 处理文章数据的存储库实现类
+ * 處理文章數據的存儲庫實現類
  *
- * @author java@tedu.cn
+ * @author XJX@tedu.cn
  * @version 1.0
  */
 @Slf4j
@@ -29,12 +29,12 @@ public class ArticleRepositoryImpl implements IArticleRepository {
     private ArticleMapper articleMapper;
 
     public ArticleRepositoryImpl() {
-        log.info("创建存储库对象：ArticleRepositoryImpl");
+        log.info("創建存儲庫對象：ArticleRepositoryImpl");
     }
 
     @Override
     public int setCommentCount(Long articleId, Integer commentCount) {
-        log.debug("开始执行【设置文章的评论数】的数据访问，参数：{}", articleId);
+        log.debug("開始執行【設置文章的評論數】的數據訪問，參數：{}", articleId);
         Article article = new Article();
         article.setId(articleId);
         article.setCommentCount(commentCount);
@@ -43,26 +43,26 @@ public class ArticleRepositoryImpl implements IArticleRepository {
 
     @Override
     public int update(Article article) {
-        log.debug("开始执行【更新文章】的数据访问，参数：{}", article);
+        log.debug("開始執行【更新文章】的數據訪問，參數：{}", article);
         return articleMapper.updateById(article);
     }
 
     @Override
     public ArticleStandardVO getStandardById(Long id) {
-        log.debug("开始执行【根据ID查询文章信息】的数据访问，参数：{}", id);
+        log.debug("開始執行【根據ID查詢文章信息】的數據訪問，參數：{}", id);
         return articleMapper.getStandardById(id);
     }
 
     @Override
     public List<ArticleListItemVO> list() {
-        log.debug("开始执行【查询文章列表】的数据访问，参数：无");
+        log.debug("開始執行【查詢文章列表】的數據訪問，參數：無");
         List<ArticleListItemVO> list = articleMapper.list();
         return list;
     }
 
     @Override
     public PageData<ArticleListItemVO> list(Integer pageNum, Integer pageSize) {
-        log.debug("开始执行【查询文章列表】的数据访问，页码：{}，每页记录数：{}", pageNum, pageSize);
+        log.debug("開始執行【查詢文章列表】的數據訪問，頁碼：{}，每頁記錄數：{}", pageNum, pageSize);
         PageHelper.startPage(pageNum, pageSize);
         List<ArticleListItemVO> list = articleMapper.list();
         PageInfo<ArticleListItemVO> pageInfo = new PageInfo<>(list);
@@ -72,7 +72,7 @@ public class ArticleRepositoryImpl implements IArticleRepository {
 
     @Override
     public PageData<ArticleListItemVO> listByCategoryId(Long categoryId, Integer pageNum, Integer pageSize) {
-        log.debug("开始执行【查询文章列表】的数据访问，文章类别：{}，页码：{}，每页记录数：{}", categoryId, pageNum, pageSize);
+        log.debug("開始執行【查詢文章列表】的數據訪問，文章類別：{}，頁碼：{}，每頁記錄數：{}", categoryId, pageNum, pageSize);
         PageHelper.startPage(pageNum, pageSize);
         List<ArticleListItemVO> list = articleMapper.listByCategoryId(categoryId);
         PageInfo<ArticleListItemVO> pageInfo = new PageInfo<>(list);

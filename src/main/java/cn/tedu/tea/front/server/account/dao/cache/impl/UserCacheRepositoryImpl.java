@@ -1,7 +1,7 @@
 package cn.tedu.tea.front.server.account.dao.cache.impl;
 
+import cn.tedu.tea.admin.server.common.pojo.po.UserLoginInfoPO;
 import cn.tedu.tea.front.server.account.dao.cache.IUserCacheRepository;
-import cn.tedu.tea.front.server.common.pojo.po.UserLoginInfoPO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,9 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 
 /**
- * 处理用户缓存数据的存储库实现类
- *
- * @author java@tedu.cn
+ * @author XJX@tedu.cn
  * @version 1.0
  */
 @Slf4j
@@ -22,6 +20,18 @@ public class UserCacheRepositoryImpl implements IUserCacheRepository {
 
     @Autowired
     private RedisTemplate<String, Serializable> redisTemplate;
+
+    @Override
+    public void deleteLoginInfo(String jwt) {
+        String key = USER_JWT_PREFIX + jwt;
+        redisTemplate.delete(key);
+    }
+
+    @Override
+    public void deleteEnable(Long userId) {
+        String key = USER_ENABLE_PREFIX + userId;
+        redisTemplate.delete(key);
+    }
 
     @Override
     public UserLoginInfoPO getLoginInfo(String jwt) {
@@ -40,5 +50,6 @@ public class UserCacheRepositoryImpl implements IUserCacheRepository {
         Integer enable = (Integer) serializable;
         return enable;
     }
+
 
 }
